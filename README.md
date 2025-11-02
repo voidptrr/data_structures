@@ -26,9 +26,6 @@ If you have [Nix installed](https://nixos.org/download) and enabled **Flakes**, 
 
     # 2. Compile
     cmake --build build
-
-    # 3. (Optional) Run tests
-    ctest --test-dir build
     ```
 
 3.  **Run the Executable:**
