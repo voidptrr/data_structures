@@ -1,0 +1,33 @@
+name: "checks"
+
+on:
+  push:
+    branches:
+      - "main"
+    paths:
+      - "**.nix"
+      - "nix/**"
+      - "flake.lock"
+      - "src/**"
+      - ".github/workflows/checks.yml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  id-token: "write"
+  contents: "read"
+
+jobs:
+  flake:
+    runs-on: ubuntu-latest 
+    steps:
+      - uses: actions/checkout@v5
+      - uses: DeterminateSystems/flake-checker-action@main
+        with:
+          fail-mode: true
+      - uses: DeterminateSystems/determinate-nix-action@v3
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - run: nix flake check
+      - run: nix build 
