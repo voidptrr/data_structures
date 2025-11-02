@@ -6,9 +6,9 @@ An implementations of common data structures in C.
 
 ## 🛠️ Build and Development
 
-This project uses **CMake** and **Ninja** for building. We provide two distinct setup methods to ensure accessibility and reproducibility.
+This project uses **CMake** and **Ninja** for building. There are two distinct setup methods to ensure accessibility and reproducibility.
 
-### Method 1: Nix Environment ❄️
+### Nix Environment ❄️
 
 If you have [Nix installed](https://nixos.org/download) and enabled **Flakes**, this is the fastest way to get a complete development shell with all dependencies (**Clang/GCC, CMake, Ninja**, etc.) configured correctly.
 
@@ -22,22 +22,19 @@ If you have [Nix installed](https://nixos.org/download) and enabled **Flakes**, 
 2.  **Build the Project:** Once inside the Nix shell, use the standard CMake commands:
     ```bash
     # 1. Configure the build (out-of-source)
-    cmake -S . -B build -G Ninja
-
-    # 2. Compile
-    cmake --build build
+    nix build
     ```
 
 3.  **Run the Executable:**
     ```bash
-    ./build/your_executable_name
+    nix run
     ```
 
 4.  **Exit:** Type `exit` or press `Ctrl+D` to leave the isolated Nix environment.
 
 ***
 
-### Method 2: Non-Nix Users ⚙️
+### Non-Nix Users ⚙️
 
 If you do not use Nix, you must ensure the following dependencies are installed on your system.
 
@@ -45,8 +42,8 @@ If you do not use Nix, you must ensure the following dependencies are installed 
 
 You must have the following installed and available in your system's PATH:
 
-* **C/C++ Compiler:** GCC (v10+) or Clang (v12+)
-* **Build System Generator:** CMake (v3.18+)
+* **C/C++ Compiler:** Clang (v21+)
+* **Build System Generator:** CMake (v4.1+)
 * **Build Tool:** Ninja (or change the generator in the configuration step below to `"Unix Makefiles"`).
 
 #### Setup Steps
