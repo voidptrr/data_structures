@@ -6,4 +6,4 @@ build/
 .cache/
 
 # Nix
-results/
+result
