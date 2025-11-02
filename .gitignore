@@ -1,0 +1,9 @@
+# MacOS
+.DS_Store
+
+# CMake
+build/
+.cache/
+
+# Nix
+results/
