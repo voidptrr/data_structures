@@ -18,8 +18,6 @@ If you have [Nix installed](https://nixos.org/download) and enabled **Flakes**, 
     ```bash
     nix develop
     nix build
-
-    # To run executable, you can directly run
     nix run
     ```
 
