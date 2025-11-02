@@ -2,8 +2,6 @@
 
 An implementations of common data structures in C. 
 
-***
-
 ## 🛠️ Build and Development
 
 This project uses **CMake** and **Ninja** for building. There are two distinct setup methods to ensure accessibility and reproducibility.
@@ -14,11 +12,12 @@ If you have [Nix installed](https://nixos.org/download) and enabled **Flakes**, 
 
 #### Setup Steps
 Enter the Development Shell:** This command automatically reads the `flake.nix` and sets up the required environment without affecting your host system.
-    ```bash
-    nix develop
-    nix build
-    nix run
-***
+
+```bash
+nix develop
+nix build
+nix run
+```
 
 ### Non-Nix Users ⚙️
 
@@ -34,11 +33,11 @@ You must have the following installed and available in your system's PATH:
 
 #### Setup Steps
 Configure the Build:** Create the build directory and generate the Ninja build files.
-    ```bash
-    cmake -S . -B build -G Ninja
-    cmake --build <folder>
-    ./build/your_executable_name
-***
+```bash
+cmake -S . -B build -G Ninja
+cmake --build <folder>
+./build/your_executable_name
+```
 
 ## 🗑️ Cleanup
 
