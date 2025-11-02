@@ -14,23 +14,14 @@ If you have [Nix installed](https://nixos.org/download) and enabled **Flakes**, 
 
 #### Setup Steps
 
-1.  **Enter the Development Shell:** This command automatically reads the `flake.nix` and sets up the required environment without affecting your host system.
+ **Enter the Development Shell:** This command automatically reads the `flake.nix` and sets up the required environment without affecting your host system.
     ```bash
     nix develop
-    ```
-
-2.  **Build the Project:** Once inside the Nix shell, use the standard CMake commands:
-    ```bash
-    # 1. Configure the build (out-of-source)
     nix build
-    ```
 
-3.  **Run the Executable:**
-    ```bash
+    # To run executable, you can directly run
     nix run
     ```
-
-4.  **Exit:** Type `exit` or press `Ctrl+D` to leave the isolated Nix environment.
 
 ***
 
@@ -50,17 +41,8 @@ You must have the following installed and available in your system's PATH:
 
 1.  **Configure the Build:** Create the build directory and generate the Ninja build files.
     ```bash
-    # Ensure you are in the project root
     cmake -S . -B build -G Ninja
-    ```
-
-2.  **Compile the Project:**
-    ```bash
-    cmake --build build
-    ```
-
-3.  **Run the Executable:**
-    ```bash
+    cmake --build <folder>
     ./build/your_executable_name
     ```
 ***
@@ -70,7 +52,6 @@ You must have the following installed and available in your system's PATH:
 To remove all build artifacts and return the repository to a clean state:
 
 ```bash
-rm -rf build
-rm -f compile_commands.json
+rm -rf <folder> # Build folder chosen
 rm -f result  # Removes the Nix build symlink if present
 ```
