@@ -13,14 +13,11 @@ This project uses **CMake** and **Ninja** for building. There are two distinct s
 If you have [Nix installed](https://nixos.org/download) and enabled **Flakes**, this is the fastest way to get a complete development shell with all dependencies (**Clang/GCC, CMake, Ninja**, etc.) configured correctly.
 
 #### Setup Steps
-
- **Enter the Development Shell:** This command automatically reads the `flake.nix` and sets up the required environment without affecting your host system.
+Enter the Development Shell:** This command automatically reads the `flake.nix` and sets up the required environment without affecting your host system.
     ```bash
     nix develop
     nix build
     nix run
-    ```
-
 ***
 
 ### Non-Nix Users ⚙️
@@ -36,13 +33,11 @@ You must have the following installed and available in your system's PATH:
 * **Build Tool:** Ninja (or change the generator in the configuration step below to `"Unix Makefiles"`).
 
 #### Setup Steps
-
-1.  **Configure the Build:** Create the build directory and generate the Ninja build files.
+Configure the Build:** Create the build directory and generate the Ninja build files.
     ```bash
     cmake -S . -B build -G Ninja
     cmake --build <folder>
     ./build/your_executable_name
-    ```
 ***
 
 ## 🗑️ Cleanup
