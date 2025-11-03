@@ -21,6 +21,7 @@ int main(void) {
     }
 
     print_array(array);
+    free_array(array);
 
     return 0;
 }

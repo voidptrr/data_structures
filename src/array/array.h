@@ -13,6 +13,7 @@ typedef struct {
 } array_t;
 
 array_t* alloc_array(array_type_t type);
+void free_array(array_t* array);
 void push_array(array_t* array, const void* element);
 void print_array(array_t* array);
 

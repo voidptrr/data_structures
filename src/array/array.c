@@ -1,6 +1,5 @@
 #include "array/array.h"
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,6 +40,11 @@ array_t* alloc_array(array_type_t type) {
     return array;
 }
 
+void free_array(array_t* array) {
+    free(array->elements);
+    free(array);
+}
+
 void push_array(array_t* array, const void* element) {
     if(array == NULL || element == NULL) return;
 
@@ -66,11 +70,10 @@ void push_array(array_t* array, const void* element) {
     array->len += 1;
 }
 
-void print_single_element(const void* element, size_t index,
-                          array_type_t type) {
+void print_single_element(const void* element, array_type_t type) {
     switch(type) {
         case INT:
-            printf("index[%zu] -> %d\n", index, *(int*)element);
+            printf("%d", *(int*)element);
             break;
         default:
             fprintf(stderr, "Data type not handled");
@@ -87,6 +90,11 @@ void print_array(array_t* array) {
     for(size_t index = 0; index < array->len; index++) {
         uint8_t* current = buffer_start + (index * type_size);
 
-        print_single_element(current, index, array->type);
+        const int index_cast = (int)index;
+
+        print_single_element(current, array->type);
+        if((index_cast + 1) % 10 != 0 && index != array->len - 1) printf(",");
+        if((index_cast + 1) % 10 == 0) printf("\n");
+        if(index == array->len - 1) printf("\n");
     }
 }
