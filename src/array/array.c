@@ -5,6 +5,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * Determines the size in bytes of an array element based on its type.
+ */
 size_t get_element_size(array_type_t type) {
     switch(type) {
         case INT:
@@ -42,6 +45,7 @@ array_t* alloc_array(array_type_t type) {
     return array;
 }
 
+
 void free_array(array_t* array) {
     free(array->elements);
     free(array);
@@ -73,6 +77,13 @@ void push_array(array_t* array, const void* element) {
     array->len += 1;
 }
 
+
+/**
+ * Prints the value of a single element based on its type.
+ * This function handles the type casting and printing for a single element 
+ * retrieved from the generic contiguous array buffer. It does not handle 
+ * formatting like commas or newlines.
+ */
 void print_single_element(const void* element, array_type_t type) {
     switch(type) {
         case INT:
@@ -83,6 +94,7 @@ void print_single_element(const void* element, array_type_t type) {
             exit(1);
     }
 }
+
 
 void print_array(array_t* array) {
     if(array == NULL) return;
