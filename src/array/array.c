@@ -1,5 +1,6 @@
 #include "array/array.h"
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,6 +35,7 @@ array_t* alloc_array(array_type_t type) {
 
     if(array->elements == NULL) {
         fprintf(stderr, "OOM");
+        free(array);
         exit(1);
     }
 
@@ -57,6 +59,7 @@ void push_array(array_t* array, const void* element) {
 
         if(new_elements == NULL) {
             fprintf(stderr, "OOM");
+            free_array(array);
             exit(1);
         }
 
