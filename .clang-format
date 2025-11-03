@@ -1,0 +1,43 @@
+---
+Language: Cpp 
+BasedOnStyle: LLVM
+
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+ColumnLimit: 80
+
+BreakBeforeBraces: Attach
+AllowShortIfStatementsOnASingleLine: true 
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortLoopsOnASingleLine: true 
+IndentCaseLabels: true
+IndentGotoLabels: false
+
+PointerAlignment: Left
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: false 
+  AfterFunctionDefinitionName: false 
+SpacesBeforeTrailingComments: 1
+AlignConsecutiveAssignments: None 
+AlignConsecutiveDeclarations: None 
+AlignTrailingComments: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# Keep preprocessing clean
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceBeforeSquareBrackets: false
+Cpp11BracedListStyle: false
+
+# Optional: keeps #include region tidy
+SortIncludes: true
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^".*"$'
+    Priority: 1
+  - Regex: '^<.*>$'
+    Priority: 2
+---
