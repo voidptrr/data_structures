@@ -5,22 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-/**
- * Determines the size in bytes of an array element based on its type.
- */
-size_t get_element_size(array_type_t type) {
-    switch(type) {
-        case INT:
-            return sizeof(int);
-            break;
-        default:
-            fprintf(stderr, "Data type not handled");
-            exit(1);
-            break;
-    }
-}
-
-array_t* alloc_array(array_type_t type) {
+array_t* alloc_array(array_type_t mode, size_t element_size) {
     size_t default_capacity = 10;
     array_t* array = malloc(sizeof(array_t));
 
@@ -29,14 +14,20 @@ array_t* alloc_array(array_type_t type) {
         exit(1);
     }
 
-    size_t type_size = get_element_size(type);
-
     array->len = 0;
-    array->type = type;
+    array->mode = mode;
+    array->element_size = element_size;
     array->capacity = default_capacity;
-    array->elements = malloc(sizeof(type_size) * default_capacity);
 
-    if(array->elements == NULL) {
+    if(mode == CONTIGUOUS) {
+        array->array_data_t.buffer =
+            malloc(sizeof(element_size) * default_capacity);
+    } else {
+        array->array_data_t.pointers = malloc(sizeof(void*) * default_capacity);
+    }
+
+    // Same space in memory so we can check either buffer or pointers.
+    if(array->array_data_t.buffer == NULL) {
         fprintf(stderr, "OOM");
         free(array);
         exit(1);
@@ -46,67 +37,60 @@ array_t* alloc_array(array_type_t type) {
 }
 
 void free_array(array_t* array) {
-    free(array->elements);
+    if(array->mode == POINTERS) {
+        for(size_t index = 0; index < array->len; index++) {
+            free(array->array_data_t.pointers[index]);
+        }
+    } else
+        free(array->array_data_t.buffer);
+
     free(array);
 }
 
-void push_array(array_t* array, const void* element) {
+void push_array(array_t* array, const void* const element) {
     if(array == NULL || element == NULL) return;
-
-    size_t type_size = get_element_size(array->type);
 
     // Handle capacity reached
     if(array->len == array->capacity) {
-        size_t new_size = type_size * array->capacity * 2;
-        void* new_elements = realloc(array->elements, new_size);
+        if(array->mode == CONTIGUOUS) {
+            size_t new_size = array->element_size * (array->capacity * 2);
+            void* new_elements = realloc(array->array_data_t.buffer, new_size);
+            if(new_elements == NULL) {
+                fprintf(stderr, "OOM");
+                free_array(array);
+                exit(1);
+            }
+            array->array_data_t.buffer = new_elements;
+        } else {
+            size_t new_size = sizeof(void*) * (array->capacity * 2);
+            void** new_elements =
+                realloc(array->array_data_t.pointers, new_size);
+            if(new_elements == NULL) {
+                fprintf(stderr, "OOM");
+                free_array(array);
+                exit(1);
+            }
+            array->array_data_t.pointers = new_elements;
+        }
 
-        if(new_elements == NULL) {
+        array->capacity *= 2;
+    }
+
+    if(array->mode == CONTIGUOUS) {
+        uint8_t* buffer_offset = (uint8_t*)array->array_data_t.buffer +
+                                 (array->len * array->element_size);
+        memcpy(buffer_offset, element, array->element_size);
+    } else {
+        void* new_pointer = malloc(array->element_size);
+        if(new_pointer == NULL) {
             fprintf(stderr, "OOM");
             free_array(array);
             exit(1);
         }
 
-        array->elements = new_elements;
-        array->capacity *= 2;
+        memcpy(new_pointer, element, array->element_size);
+        array->array_data_t.pointers[array->len] = new_pointer;
     }
-
-    uint8_t* buffer = (uint8_t*)array->elements + (array->len * type_size);
-    memcpy(buffer, element, type_size);
 
     array->len += 1;
-}
-
-/**
- * Prints the value of a single element based on its type.
- * This function handles the type casting and printing for a single element
- * retrieved from the generic contiguous array buffer. It does not handle
- * formatting like commas or newlines.
- */
-void print_single_element(const void* element, array_type_t type) {
-    switch(type) {
-        case INT:
-            printf("%d", *(int*)element);
-            break;
-        default:
-            fprintf(stderr, "Data type not handled");
-            exit(1);
-    }
-}
-
-void print_array(array_t* array) {
-    if(array == NULL) return;
-
-    size_t type_size = get_element_size(array->type);
-    uint8_t* buffer_start = (uint8_t*)array->elements;
-
-    for(size_t index = 0; index < array->len; index++) {
-        uint8_t* current = buffer_start + (index * type_size);
-
-        const int index_cast = (int)index;
-
-        print_single_element(current, array->type);
-        if((index_cast + 1) % 10 != 0 && index != array->len - 1) printf(",");
-        if((index_cast + 1) % 10 == 0) printf("\n");
-        if(index == array->len - 1) printf("\n");
-    }
 }
