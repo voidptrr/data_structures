@@ -77,9 +77,8 @@ void print_inorder_bst(node_t* root) {
             node_t* last_element = *last_element_ptr;
             free(last_element_ptr);
 
-            node_t* right = last_element->right;
             printf("node->val = %d\n", last_element->val);
-            current = right;
+            current = last_element->right;
         }
     }
 
