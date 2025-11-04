@@ -40,4 +40,7 @@ void free_array(array_t* array);
  */
 void push_array(array_t* array, const void* const element);
 
+
+void* pop_array(array_t* array);
+
 #endif

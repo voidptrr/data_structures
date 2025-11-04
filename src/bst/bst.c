@@ -1,11 +1,9 @@
 #include "bst/bst.h"
+#include "array/array.h"
 
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-// TODO: improve this by having num_nodes under a tree structure.
-#define MAX_STACK_SIZE 100
 
 node_t* alloc_bst_node(int value) {
     node_t* node = (node_t*)malloc(sizeof(node_t));
@@ -63,28 +61,26 @@ void insert_bst_element(node_t** root, int value) {
 void print_inorder_bst(node_t* root) {
     if(root == NULL) return;
 
-    node_t* stack[MAX_STACK_SIZE];
-    int top = -1;
-
+    array_t* node_stack = alloc_array(CONTIGUOUS, sizeof(node_t*));
     node_t* current = root;
 
-    while(current != NULL || top != -1) {
+    while(current != NULL || node_stack->len != 0) {
         while(current != NULL) {
-            if(top < (MAX_STACK_SIZE - 1)) {
-                stack[++top] = current;
-                current = current->left;
-            } else {
-                fprintf(stderr, "Too many tree elements");
-                return;
-            }
+            push_array(node_stack, &current);
+            current = current->left;
         }
 
         // current here is NULL as we got to the most left node already
-        if(top != -1) {
-            current = stack[top--];
+        if(node_stack->len != 0) {
+            node_t** last_element_ptr = pop_array(node_stack); 
+            node_t* last_element = *last_element_ptr;
+            free(last_element_ptr);
 
-            printf("node->val = %d\n", current->val);
-            current = current->right;
+            node_t* right = last_element->right;
+            printf("node->val = %d\n", last_element->val);
+            current = right;
         }
     }
+
+    free(node_stack);
 }
