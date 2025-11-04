@@ -1,4 +1,5 @@
 #include "bst/bst.h"
+
 #include "array/array.h"
 
 #include <errno.h>
@@ -72,7 +73,7 @@ void print_inorder_bst(node_t* root) {
 
         // current here is NULL as we got to the most left node already
         if(node_stack->len != 0) {
-            node_t** last_element_ptr = pop_array(node_stack); 
+            node_t** last_element_ptr = pop_array(node_stack);
             node_t* last_element = *last_element_ptr;
             free(last_element_ptr);
 

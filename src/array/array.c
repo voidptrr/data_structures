@@ -95,14 +95,14 @@ void push_array(array_t* array, const void* const element) {
     array->len += 1;
 }
 
-
 void* pop_array(array_t* array) {
     if(array == NULL || array->len == 0) return NULL;
 
     array->len -= 1;
 
     if(array->mode == CONTIGUOUS) {
-        uint8_t* source_addr = (uint8_t*)array->array_data_t.buffer + (array->len * array->element_size);
+        uint8_t* source_addr = (uint8_t*)array->array_data_t.buffer +
+                               (array->len * array->element_size);
 
         void* buffer = malloc(array->element_size);
         memcpy(buffer, source_addr, array->element_size);
