@@ -22,7 +22,7 @@ int main(void) {
     assert(possible_element != NULL);
     printf("Element %d found\n", possible_element->val);
 
-    node_t* not_found_element = search_bst(root, 40);
+    node_t* not_found_element = search_bst(root, 10);
     assert(not_found_element == NULL);
     printf("Element %p not found\n", not_found_element);
 
