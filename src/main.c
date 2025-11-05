@@ -1,6 +1,7 @@
 #include "array/array.h"
 #include "bst/bst.h"
 
+#include <assert.h>
 #include <stdio.h>
 
 typedef struct {
@@ -16,6 +17,15 @@ int main(void) {
     insert_bst_element(&root, 50);
 
     print_inorder_bst(root);
+
+    node_t* possible_element = search_bst(root, 40);
+    assert(possible_element != NULL);
+    printf("Element %d found\n", possible_element->val);
+
+    node_t* not_found_element = search_bst(root, 40);
+    assert(not_found_element == NULL);
+    printf("Element %p not found\n", not_found_element);
+
     free_bst(root);
 
     printf("===========ARRAY CONTIGUOUS===========\n");

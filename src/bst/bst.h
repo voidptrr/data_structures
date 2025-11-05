@@ -11,5 +11,6 @@ node_t* alloc_bst_node(int value);
 void free_bst(node_t* root);
 void insert_bst_element(node_t** root, int value);
 void print_inorder_bst(node_t* root);
+node_t* search_bst(node_t* root, int value);
 
 #endif

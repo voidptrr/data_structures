@@ -84,3 +84,23 @@ void print_inorder_bst(node_t* root) {
 
     free(node_stack);
 }
+
+node_t* search_bst(node_t* root, int value) {
+    array_t* node_stack = alloc_array(CONTIGUOUS, sizeof(node_t*));
+    push_array(node_stack, &root);
+
+    while(node_stack->len != 0) {
+        node_t** last_element = pop_array(node_stack);
+        node_t* element = *last_element;
+
+        if(element->val == value) return element;
+        if(value > element->val && element->right != NULL)
+            push_array(node_stack, &element->right);
+
+        if(value < element->val && element->left != NULL)
+            push_array(node_stack, &element->right);
+    }
+
+    free(node_stack);
+    return NULL;
+}
